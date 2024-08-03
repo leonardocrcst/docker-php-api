@@ -2,8 +2,8 @@
 
 use Dotenv\Dotenv;
 
-$env = Dotenv::createImmutable(__DIR__);
-$env->load();
+Dotenv::createImmutable(__DIR__)
+    ->load();
 
 return
 [
@@ -24,14 +24,14 @@ return
             'charset' => 'utf8mb4',
         ],
         'development' => [
-            'adapter' => $_ENV['DB_TYPE'],
+            'adapter' => 'sqlite',
             'name' => str_replace(['.db', '../'], '', $_ENV['DB_NAME']),
             'suffix' => '.db',
             'charset' => 'utf8mb4',
         ],
         'testing' => [
             'adapter' => 'sqlite',
-            'name' => './Tests/kitnet-test',
+            'name' => './tests/database',
             'suffix' => '.db',
             'charset' => 'uft8mb4'
         ]
