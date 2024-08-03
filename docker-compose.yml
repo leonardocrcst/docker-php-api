@@ -1,0 +1,34 @@
+volumes:
+  logs:
+    driver: local
+
+services:
+  database:
+    container_name: database
+    image: mariadb:lts
+    restart: on-failure
+    environment:
+      MARIADB_USER: "user"
+      MARIADB_PASSWORD: "password"
+      MARIADB_ROOT_PASSWORD: "root-password"
+    volumes:
+      - "./database/data:/var/lib/mysql/data/"
+      - "./database/logs:/var/lib/mysql/logs/"
+    ports:
+      - "3306:3306"
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    working_dir: /var/www
+    command: php -S 0.0.0.0:8080 -t public
+    environment:
+      docker: "true"
+    ports:
+      - "8081:8080"
+      - "9003:9003"
+    volumes:
+      - .:/var/www
+      - logs:/var/www/log
