@@ -155,5 +155,6 @@ class UserTest extends TestCase
         $user->inactivate();
 
         $this->assertFalse($user->isActive());
+        $this->assertInstanceOf(DateTime::class, $user->getDeleteTimestamp());
     }
 }
