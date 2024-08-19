@@ -5,6 +5,8 @@ use Dotenv\Dotenv;
 Dotenv::createImmutable(__DIR__)
     ->load();
 
+define('DB_NAME', str_replace(['.db', '../'], '', $_ENV['DB_NAME']));
+
 return
 [
     'paths' => [
@@ -25,13 +27,13 @@ return
         ],
         'development' => [
             'adapter' => 'sqlite',
-            'name' => str_replace(['.db', '../'], '', $_ENV['DB_NAME']),
+            'name' => './tests/' . DB_NAME . '-development',
             'suffix' => '.db',
             'charset' => 'utf8mb4',
         ],
         'testing' => [
             'adapter' => 'sqlite',
-            'name' => './tests/database',
+            'name' => './tests/' . DB_NAME . '-testing',
             'suffix' => '.db',
             'charset' => 'uft8mb4'
         ]
