@@ -3,3 +3,5 @@ log
 vendor
 /tests/database-development.db
 /tests/database-testing.db
+/.phpunit.cache/
+/phpunit-coverage/
