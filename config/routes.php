@@ -6,14 +6,16 @@ use Slim\App;
 
 return function (App $app) {
     $app->any(
-        '/api',
+        '/api[/{args:.*}]',
         function (
             ServerRequestInterface $request,
             ResponseInterface $response,
             array $args = []
         ) {
             $response->getBody()->write(json_encode(['message' => 'Olá, mundo!', 'data' => $args]));
-            return $response->withStatus(200);
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
         }
     );
 
