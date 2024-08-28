@@ -1,6 +1,12 @@
 <?php
 
-use Psr\Container\ContainerInterface;
+use App\Infrastructure\Database\Repository\DatabaseRepository;
+use App\Package\Common\Repository\DatabaseRepositoryInterface;
+use DI\Container;
 
-return function (ContainerInterface $container) {
+return function (Container $container) {
+    $container->set(
+        DatabaseRepositoryInterface::class,
+        fn () => new DatabaseRepository()
+    );
 };

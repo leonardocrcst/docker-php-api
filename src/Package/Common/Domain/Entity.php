@@ -28,7 +28,7 @@ abstract class Entity
 
     public function update(): void
     {
-        $this->updatedAt = $this->createdAt instanceof DateTime ? new DateTime() : null;
+        $this->updatedAt = new DateTime();
     }
 
     public function getUpdateTimestamp(): ?DateTime
@@ -43,16 +43,16 @@ abstract class Entity
 
     public function delete(): void
     {
-        if ($this->createdAt instanceof DateTime) {
-            $this->deletedAt = new DateTime();
-            $this->update();
-        }
+        $this->deletedAt = new DateTime();
+        $this->update();
     }
 
     public function isActive(): bool
     {
         return $this->createdAt instanceof DateTime && empty($this->deletedAt);
     }
+
+    abstract public function toArray(): array;
 
     abstract public function map(DataTransferObject $data): void;
 

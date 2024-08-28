@@ -36,13 +36,15 @@ class User extends Entity
         return password_verify($password, $this->password);
     }
 
-    public function map(DataTransferObject|UserDto $data): void
+    public function map(UserDto|DataTransferObject $data): void
     {
         $this->id = $data->id;
         $this->createdAt = $data->createdAt;
         $this->deletedAt = $data->deletedAt;
         $this->username = $data->username;
-        $this->password = $data->password;
+        $this->password = empty($data->id)
+            ? password_hash($data->password, PASSWORD_DEFAULT)
+            : $data->password;
     }
 
     /**
@@ -57,5 +59,17 @@ class User extends Entity
         if (empty($this->password)) {
             throw new EmptyPasswordException();
         }
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'created_at' => $this->createdAt?->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updatedAt?->format('Y-m-d H:i:s'),
+            'deleted_at' => $this->deletedAt?->format('Y-m-d H:i:s'),
+            'username' => $this->username,
+            'password' => $this->password,
+        ];
     }
 }

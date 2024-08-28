@@ -11,7 +11,7 @@ $inject = require_once __DIR__ . '/../config/inject.php';
 $container = new Container();
 $inject($container);
 
-Dotenv\Dotenv::createImmutable(__DIR__ . '/../')
+Dotenv\Dotenv::createImmutable(__DIR__ . '/../', '.env.development')
     ->load();
 
 AppFactory::setContainer($container);
