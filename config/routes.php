@@ -22,8 +22,6 @@ use Slim\Routing\RouteCollectorProxy;
  */
 
 return function (App $app) {
-    $checkUserAuthentication = require_once __DIR__ . '/../middleware/checkUserAuthentication.php';
-
     $app->group('/api', function (RouteCollectorProxy $group) {
         $group->post('/users[/]', CriarUsuario::class);
         $group->post('/session/login', LoginUsuario::class);
@@ -42,7 +40,8 @@ return function (App $app) {
             $group->get('/{id}', AbrirUsuario::class);
         });
     })->add(
-        function (ServerRequestInterface $request, RequestHandlerInterface $handler) use ($checkUserAuthentication, $app) {
+        function (ServerRequestInterface $request, RequestHandlerInterface $handler) use ($app) {
+            $checkUserAuthentication = require_once __DIR__ . '/../middleware/checkUserAuthentication.php';
             return $checkUserAuthentication($request, $handler, $app);
         }
     );
@@ -61,5 +60,11 @@ return function (App $app) {
         }
     );
 
-    $app->any('[/]', fn() => header('Location: http://localhost:5173'));
+    $app->any(
+        '[/]',
+        fn(ServerRequestInterface $request, ResponseInterface $response) => $response->withHeader(
+            'Location',
+            'http://localhost:5173'
+        )->withStatus(302)
+    );
 };

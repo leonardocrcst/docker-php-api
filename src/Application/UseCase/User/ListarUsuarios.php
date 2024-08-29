@@ -26,6 +26,7 @@ class ListarUsuarios extends UseCase
     {
         $this->repository->setTable(DatabaseTables::USERS->value);
         return array_map(function ($data) {
+            unset($data['password']);
             return UsuarioBuilder::fromArray($data);
         }, $this->repository->list());
     }

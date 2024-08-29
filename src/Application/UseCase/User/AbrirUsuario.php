@@ -6,8 +6,6 @@ use App\Application\Builder\Usuario\UsuarioBuilder;
 use App\Application\ResponseBody;
 use App\Application\UseCase\UseCase;
 use App\Infrastructure\Database\DatabaseTables;
-use App\Infrastructure\Database\Repository\Trait\OpenTrait;
-use App\Package\Common\Repository\DatabaseRepositoryInterface;
 use App\Package\User\DTO\UserDto;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
@@ -37,6 +35,7 @@ class AbrirUsuario extends UseCase
     {
         $this->repository->setTable(DatabaseTables::USERS->value);
         $data = $this->repository->open($id);
+        unset($data['password']);
         return !empty($data)
             ? UsuarioBuilder::fromArray($data)
             : null;
