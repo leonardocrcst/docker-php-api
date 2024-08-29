@@ -10,7 +10,7 @@ interface DatabaseRepositoryInterface
 
     public function delete(array $data, ?string $identificationField = 'id'): void;
 
-    public function list(): array;
+    public function list(array $columns = ['*']): ?array;
 
-    public function open(int $id): array;
+    public function open(int $id, array $columns = ['*']): ?array;
 }

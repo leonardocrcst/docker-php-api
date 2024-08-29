@@ -27,9 +27,6 @@ class CriarUsuario extends UseCase
                 'id' => $this->repository->create($user->toArray())
             ]
         );
-        $this->response->getBody()->write(json_encode($response));
-        return $this->response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($response->code);
+        return $this->createResponse($response);
     }
 }

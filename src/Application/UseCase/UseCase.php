@@ -2,6 +2,7 @@
 
 namespace App\Application\UseCase;
 
+use App\Application\ResponseBody;
 use App\Package\Common\Repository\DatabaseRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -40,7 +41,7 @@ abstract class UseCase
 
     private function getExecutionError(Throwable $exception): ResponseInterface
     {
-        $error = [
+        $content = [
             'error' => [
                 'message' => $exception->getMessage(),
                 'file' => $exception->getFile(),
@@ -48,10 +49,20 @@ abstract class UseCase
             ],
             'code' => $exception->getCode() >= 100 && $exception->getCode() <= 599 ? $exception->getCode() : 500,
         ];
-        $this->response->getBody()->write(json_encode($error));
+        $error = new ResponseBody(
+            'Error',
+            $exception->getCode() >= 100 && $exception->getCode() <= 599 ? $exception->getCode() : 500,
+            $content
+        );
+        return $this->createResponse($error);
+    }
+
+    protected function createResponse(ResponseBody $body): ResponseInterface
+    {
+        $this->response->getBody()->write(json_encode($body));
         return $this->response
             ->withHeader('Content-Type', 'application/json')
-            ->withStatus($error['code']);
+            ->withStatus($body->code);
     }
 
     abstract public function execute(): ResponseInterface;

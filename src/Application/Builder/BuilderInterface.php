@@ -8,4 +8,6 @@ use Psr\Http\Message\ServerRequestInterface;
 interface BuilderInterface
 {
     static public function fromRequest(ServerRequestInterface $request): DataTransferObject;
+
+    static public function fromArray(array $data): DataTransferObject;
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\UseCase\Usuario\AbrirUsuario;
 use App\Application\UseCase\Usuario\AtualizarUsuario;
 use App\Application\UseCase\Usuario\CriarUsuario;
 use App\Application\UseCase\Usuario\ListarUsuarios;
@@ -17,12 +18,12 @@ use Slim\Routing\RouteCollectorProxy;
  */
 
 return function (App $app) {
-
     $app->group('/api/users', function (RouteCollectorProxy $group) {
         $group->post('[/]', CriarUsuario::class);
         $group->patch('/{id}', AtualizarUsuario::class);
         $group->delete('/{id}', RemoverUsuario::class);
-        $group->get('[/[{id}]]', ListarUsuarios::class);
+        $group->get('[/]', ListarUsuarios::class);
+        $group->get('/{id}', AbrirUsuario::class);
     });
 
     $app->any(
@@ -36,7 +37,7 @@ return function (App $app) {
         }
     );
 
-    $app->any('[/]', fn () => header('Location: http://localhost:5173'));
+    $app->any('[/]', fn() => header('Location: http://localhost:5173'));
 };
 
 function tempResponse(ResponseInterface $response, array $args): ResponseInterface

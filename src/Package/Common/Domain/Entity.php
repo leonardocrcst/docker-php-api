@@ -5,7 +5,7 @@ namespace App\Package\Common\Domain;
 use App\Package\Common\DTO\DataTransferObject;
 use DateTime;
 
-abstract class Entity
+abstract class Entity implements EntityInterface
 {
     protected ?DateTime $updatedAt = null;
     protected ?DateTime $deletedAt = null;
