@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Application\UseCase\Usuario;
+namespace App\Application\UseCase\User;
 
 use App\Application\Builder\Usuario\UsuarioBuilder;
 use App\Application\ResponseBody;
 use App\Application\UseCase\UseCase;
+use App\Infrastructure\Database\DatabaseTables;
 use App\Infrastructure\Database\Repository\Trait\OpenTrait;
 use App\Package\Common\Repository\DatabaseRepositoryInterface;
 use App\Package\User\DTO\UserDto;
@@ -34,7 +35,7 @@ class AbrirUsuario extends UseCase
 
     private function openUserById(int $id): ?UserDto
     {
-        $this->repository->setTable('users');
+        $this->repository->setTable(DatabaseTables::USERS->value);
         $data = $this->repository->open($id);
         return !empty($data)
             ? UsuarioBuilder::fromArray($data)

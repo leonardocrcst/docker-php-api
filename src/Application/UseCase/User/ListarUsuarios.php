@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Application\UseCase\Usuario;
+namespace App\Application\UseCase\User;
 
 use App\Application\Builder\Usuario\UsuarioBuilder;
 use App\Application\ResponseBody;
 use App\Application\UseCase\UseCase;
+use App\Infrastructure\Database\DatabaseTables;
 use Psr\Http\Message\ResponseInterface;
 
 class ListarUsuarios extends UseCase
@@ -23,7 +24,7 @@ class ListarUsuarios extends UseCase
 
     private function getUsersLists(): ?array
     {
-        $this->repository->setTable('users');
+        $this->repository->setTable(DatabaseTables::USERS->value);
         return array_map(function ($data) {
             return UsuarioBuilder::fromArray($data);
         }, $this->repository->list());

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\UseCase\Usuario;
+namespace App\Application\UseCase\User;
 
 use App\Application\UseCase\UseCase;
 use Psr\Http\Message\ResponseInterface;

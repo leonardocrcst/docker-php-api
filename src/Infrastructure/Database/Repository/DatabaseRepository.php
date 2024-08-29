@@ -9,6 +9,7 @@ use App\Infrastructure\Database\Repository\Trait\OpenTrait;
 use App\Infrastructure\Database\Repository\Trait\UpdateTrait;
 use App\Package\Common\Repository\DatabaseRepositoryInterface;
 use Aura\SqlQuery\QueryFactory;
+use Exception;
 use PDO;
 
 class DatabaseRepository implements DatabaseRepositoryInterface
@@ -23,6 +24,9 @@ class DatabaseRepository implements DatabaseRepositoryInterface
     protected string $table;
     protected PDO $pdo;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         $this->pdo = DatabaseConnection::connect();

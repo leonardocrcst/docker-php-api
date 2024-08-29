@@ -40,7 +40,8 @@ class UsuarioBuilder implements BuilderInterface
             $data['created_at'] ? new DateTime($data['created_at']) : null,
             $data['updated_at'] ? new DateTime($data['updated_at']) : null,
             $data['deleted_at'] ? new DateTime($data['deleted_at']) : null,
-            $data['username'] ?? null
+            $data['username'] ?? null,
+            $data['password'] ?? null,
         );
     }
 }
